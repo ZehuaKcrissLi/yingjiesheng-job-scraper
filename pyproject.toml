@@ -1,0 +1,16 @@
+[project]
+name = "yingjiesheng-job-scraper"
+version = "0.1.0"
+description = "应届生找工作爬虫 Yingjiesheng Job Scraper (UI-only, Playwright)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "playwright>=1.49.0",
+  "requests>=2.32.0",
+]
+
+[project.urls]
+Repository = "https://github.com/ZehuaKcrissLi/yingjiesheng-job-scraper"
+
+[tool.uv]
+dev-dependencies = []

@@ -1,0 +1,40 @@
+## Python
+__pycache__/
+*.py[cod]
+*.pyd
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+## Virtual environments
+.venv/
+venv/
+
+## OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+## Playwright
+playwright-report/
+test-results/
+
+## Scraper outputs (do NOT commit)
+*.jsonl
+*.csv
+bad_responses.log
+
+## External city dict (auto-downloaded)
+dd_city.json
+
+## Login / auth state (sensitive)
+yjs_state.json
+*.storage_state.json
+
+## Debug artifacts
+debug/
+trash/
+
+## Local cache / downloads
+downloads/
