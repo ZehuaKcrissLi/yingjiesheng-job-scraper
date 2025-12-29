@@ -80,7 +80,3 @@ python main.py --area-name "山东" --keyword "人力资源"
 - `dd_city.json`：地区字典（用于 area-name -> jobarea code；可由脚本自动下载/更新）
 - `yjs_state.json`：登录态（敏感，不提交）
 - `debug/`：调试截图（不提交）
-
-## 其他文档
-
-若你希望在 `documents/` 目录下维护一份镜像版文档，可见：`documents/README.md`。
