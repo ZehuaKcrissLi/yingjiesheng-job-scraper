@@ -150,6 +150,34 @@ def normalize_area_name(name: str) -> str:
 
 
 def resolve_jobarea_code(area_name: str, name_to_codes: dict[str, list[str]]) -> str:
+    """
+    Resolve a user-facing area name to the Yingjiesheng "jobarea" code.
+
+    Rules
+    -----
+    - "全国" (and common aliases) maps to empty string "" (no jobarea filter).
+    - If `name_to_codes[area_name]` contains duplicate entries, they are de-duplicated;
+      duplicate codes do NOT imply ambiguity.
+    - Ambiguity is reported only when there are multiple distinct codes after de-duplication.
+    - If `area_name` has no administrative suffix, the resolver will probe `area_name + "省"`.
+
+    Parameters
+    ----------
+    area_name:
+        User input area name, e.g. "山东", "深圳", "全国".
+    name_to_codes:
+        Mapping from area display name to a list of candidate codes (may include duplicates).
+
+    Returns
+    -------
+    str
+        A single resolved jobarea code. Empty string "" means nationwide.
+
+    Raises
+    ------
+    ValueError
+        If the name is not found, or truly ambiguous (multiple distinct codes).
+    """
     # English-only comments: resolve user-facing area name to jobarea code
     area_name = normalize_area_name(area_name)
     if area_name == "全国":
@@ -157,17 +185,19 @@ def resolve_jobarea_code(area_name: str, name_to_codes: dict[str, list[str]]) ->
 
     if area_name in name_to_codes:
         codes = name_to_codes[area_name]
-        if len(codes) == 1:
-            return codes[0]
-        raise ValueError(f"Ambiguous area name '{area_name}', candidates: {sorted(set(codes))}")
+        unique_codes = sorted(set(codes))
+        if len(unique_codes) == 1:
+            return unique_codes[0]
+        raise ValueError(f"Ambiguous area name '{area_name}', candidates: {unique_codes}")
 
     if not area_name.endswith(("省", "市", "自治区", "特别行政区")):
         probe = area_name + "省"
         if probe in name_to_codes:
             codes = name_to_codes[probe]
-            if len(codes) == 1:
-                return codes[0]
-            raise ValueError(f"Ambiguous area name '{probe}', candidates: {sorted(set(codes))}")
+            unique_codes = sorted(set(codes))
+            if len(unique_codes) == 1:
+                return unique_codes[0]
+            raise ValueError(f"Ambiguous area name '{probe}', candidates: {unique_codes}")
 
     hits = [(n, c) for n, cs in name_to_codes.items() for c in cs if area_name in n]
     hits = sorted(set(hits))[:50]

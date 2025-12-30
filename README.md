@@ -73,6 +73,9 @@ python main.py --area-name "山东" --keyword "人力资源"
   - 页面可能出现固定浮层/下拉弹层拦截点击；脚本会尝试 `Escape` 清场并对疑似拦截层禁用 `pointer-events`。
 - **state 过期/无法获取第1页**：
   - 删除本地 `yjs_state.json` 后重新运行，按提示手动登录生成新 state。
+- **area-name 报 “Ambiguous area name”**：
+  - `dd_city.json` 可能存在同名城市的重复记录；脚本会对重复 code 自动去重。
+  - 只有在去重后仍出现多个不同 code 时，才会提示真正歧义；此时请改用更精确的地区名称（例如带“省/市”后缀）或直接传入 `--area-name` 的完整匹配项。
 
 ## 目录结构建议
 
